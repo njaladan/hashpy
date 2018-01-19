@@ -1,0 +1,10 @@
+requires two summations for increased error detection (basically, redundancy)
+placed next to each other (n bit digests => 2n bit digest)
+16, 32, 64 use same algorithm but different amount
+	idea that bigger is better
+checksums aren't about being broken - they have no security compared to hashes
+	but easier to compute, maybe a good usage would be for packet analysis
+
+checkbytes are basically checksum for checksum (lost in transmision)
+	to be frank even c1 is just that
+	triple nested checksums, wow
