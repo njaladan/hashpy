@@ -2,8 +2,9 @@
 # simple input will let user choose which one they want
 # (to be implemented later)
 
-# to-do: give checksum at the end
-# TODO: make all of these a class
+# 32 NEEDS TO TAKE IN 2 BYTES AT A TIME
+
+print('hi')
 
 class Fletcher16:
     
@@ -48,6 +49,9 @@ class Fletcher16:
             return translated_number[2:]
         return '0' + translated_number[2:]
 
+
+
+
 # I'm not sure how to write a user-friendly CLI
 # maybe i can do the options thing in the cli,
 # try that for part 2
@@ -59,11 +63,14 @@ def main():
         print('Enter a file name.')
         inp = input()
         f = open(inp, 'rb')
-        print('Enter 16-, 32-, or 64-bit checksum')
-        inp = input()
-        
-    
-        print(type(f.read()))
+        print('Enter 16, 32, or 64 bit checksum')
+        inp = int(input())
+        if inp==16:
+            hashobj = Fletcher16()
+            hashobj.update(f.read())
+            hexdigest = hashobj.hexdigest()
+            digest= hashobj.digest()
+        print(hexdigest, digest)
 
 if __name__ == '__main__':
     main()

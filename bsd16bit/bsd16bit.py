@@ -1,3 +1,4 @@
+print('BSD 16-bit checksum calculator')
 print('Enter a file name.')
 doc = input()
 f = open(doc, "rb")
@@ -17,4 +18,5 @@ for b in arr:
     checksum = (checksum >> 1) + ((checksum & 1) << 15)
     checksum = (checksum + b) & bitmask
 
-print(checksum, num_of_bytes)
+print("Checksum: " + str(checksum))
+print("Number of bytes processed: " + str(num_of_bytes))

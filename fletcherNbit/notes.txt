@@ -8,3 +8,6 @@ checksums aren't about being broken - they have no security compared to hashes
 checkbytes are basically checksum for checksum (lost in transmision)
 	to be frank even c1 is just that
 	triple nested checksums, wow
+
+i learned about the main method
+	and presumably, how things like command line arguments work

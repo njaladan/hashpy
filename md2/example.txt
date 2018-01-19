@@ -1,0 +1,11 @@
+1. padding until bytes are a multiple of 16
+	a. pad even if it's already a multiple of 16 (pad with another 16 bytes then)
+	b. pad by adding "i" bytes of value "i" 
+		presumably like 4 4 4 4
+		i think so you can't scam it with adding a byte and getting away with the same signature
+2. append the checksum
+	a. 
+
+
+
+wait wtf it's only 5 steps long who would've thunk it.
