@@ -4,8 +4,6 @@
 
 # 32 NEEDS TO TAKE IN 2 BYTES AT A TIME
 
-print('hi')
-
 class Fletcher16:
     
     #takes no arguments, since you add string by updating
@@ -29,19 +27,13 @@ class Fletcher16:
         # compute check bytes
         self.cb0 = 255 - ((self.c0 + self.c1) % 255)
         self.cb1 = 255 - ((self.c0 + self.cb0) % 255)
-
-    def digest(self):
-        return chr(self.c1) + chr(self.c0)
-
+        
     # needs work, broken
     def hexdigest(self):
         translated_number = hex((self.c1 << 8) + (self.c0))
         if len(translated_number) % 2 == 0:
-            return translated_number[2:]
-        return '0' + translated_number[2:]
-
-    def cb_digest(self):
-        return chr(self.cb0) + chr(self.cb1)
+            return '0x' + translated_number[2:]
+        return '0x0' + translated_number[2:]
 
     def cb_hexdigest(self):
         translated_number = hex((self.cb0 << 8) + (self.cb1))
@@ -49,6 +41,46 @@ class Fletcher16:
             return translated_number[2:]
         return '0' + translated_number[2:]
 
+class Fletcher32:
+
+    #takes no arguments, since you add string by updating
+    def __init__(self):
+        self.c0 = 0
+        self.c1 = 0
+        self.cb0 = 0
+        self.cb1 = 0
+
+    def update(self, bytestring):
+        # prevents unicode or weirdly encoded strings
+        # from being passed in
+        if type(bytestring) != bytes:
+            bytestring = str.encode(bytestring)
+        bytestring = bytearray(bytestring)
+        for i in range(0, len(bytestring)//2):
+            bytepart = (bytestring[2*i+1] << 8) + bytestring[2*i]
+            self.c0 = (self.c0 + bytepart) % 65535
+            self.c1 = (self.c1 + self.c0) % 65535
+        if len(bytestring) % 2 == 1:
+            bytepart = bytestring[len(bytestring)-1]
+            self.c0 = (self.c0 + bytepart) % 65535
+            self.c1 = (self.c1 + self.c0) % 65535
+
+        # compute check bytes
+        self.cb0 = 65535 - ((self.c0 + self.c1) % 65535)
+        self.cb1 = 65535 - ((self.c0 + self.cb0) % 65535)
+
+    # needs work, broken
+    def hexdigest(self):
+        translated_number = hex((self.c1 << 16) + (self.c0))
+        if len(translated_number) % 2 == 0:
+            return '0x' + translated_number[2:]
+        return '0x0' + translated_number[2:]
+
+    def cb_hexdigest(self):
+        translated_number = hex((self.cb0 << 16) + (self.cb1))
+        if len(translated_number) % 2 == 0:
+            return translated_number[2:]
+        return '0' + translated_number[2:]
 
 
 
@@ -69,8 +101,12 @@ def main():
             hashobj = Fletcher16()
             hashobj.update(f.read())
             hexdigest = hashobj.hexdigest()
-            digest= hashobj.digest()
-        print(hexdigest, digest)
+        elif inp==32:
+            hashobj = Fletcher32()
+            hashobj.update(f.read())
+            hexdigest = hashobj.hexdigest()
+
+        print(hexdigest)
 
 if __name__ == '__main__':
     main()
