@@ -1,22 +1,3 @@
-requires two summations for increased error detection (basically, redundancy)
-placed next to each other (n bit digests => 2n bit digest)
-16, 32, 64 use same algorithm but different amount
-	idea that bigger is better
-checksums aren't about being broken - they have no security compared to hashes
-	but easier to compute, maybe a good usage would be for packet analysis
 
-checkbytes are basically checksum for checksum (lost in transmision)
-	to be frank even c1 is just that
-	triple nested checksums, wow
-
-i learned about the main method
-	and presumably, how things like command line arguments work
-
-
-switching the bytes that are read in swaps the final bytes by pairs (for the 32 bit one) 
+switching the bytes that are read in swaps the final bytes by pairs (for the 32 bit one)
 	i ended up getting this problem every time because i forgot hwo the other ones worked
-
-did the whoel thing manually until i found the int from bytes method SIGH
-
-
-also object orientation
