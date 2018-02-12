@@ -31,7 +31,7 @@ class Fletcher:
             start = self.bytes_read*i
             end = self.bytes_read*(i+1)
             
-            bytepart = int.from_bytes(bytestring[start:end], byteorder="big")
+            bytepart = int.from_bytes(bytestring[start:end], byteorder="little")
             self.c0 = (self.c0 + bytepart) % self.modulus
             self.c1 = (self.c1 + self.c0) % self.modulus
 

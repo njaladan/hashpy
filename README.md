@@ -18,7 +18,7 @@ This is a pretty optimistic list.
 
 - [x] BSD 16-bit checksum
 - [x] Fletcher checksum
-- [ ] Adler-32
+- [x] Adler-32
 - [ ] CRC32
 - [ ] MD2
 - [ ] MD4
