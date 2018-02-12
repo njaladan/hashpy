@@ -15,3 +15,8 @@ i learned about the main method
 
 switching the bytes that are read in swaps the final bytes by pairs (for the 32 bit one) 
 	i ended up getting this problem every time because i forgot hwo the other ones worked
+
+did the whoel thing manually until i found the int from bytes method SIGH
+
+
+also object orientation
