@@ -1,11 +1,10 @@
-# HashBrowns
-Collection of self-written hash functions.
-
+# hashbrowns
+Collection of various hash functions.
 
 ## Introduction
-I think hash functions are one of those wonderful things that are a key part of technology and cryptography, but something that very few people really understand. As a result, I'm trying to understand how they work, and am writing a set of Python functions for each interesting hash/checksum function I run into.
+Hash functions are pretty interesting, but I never really understood them. This is just a small personal project where I'm trying to write various hash functions to try to understand them better.
 
-I'm writing them in Python as that's what I'm familiar with now, but maybe I'll move onto other languages in the future. We'll see.
+I'm writing them in Python now, but I might move into other language in the future.
 
 ## File structure
 
@@ -20,7 +19,7 @@ This is a pretty optimistic list.
 - [x] Fletcher checksum
 - [x] Adler-32
 - [ ] CRC32
-- [ ] MD2
+- [x] MD2
 - [ ] MD4
 - [ ] MD5
 - [ ] Jenkins
@@ -29,6 +28,6 @@ This is a pretty optimistic list.
 - [ ] SHA-2
 
 ## Future
-Efficiency is a big deal when parsing lots of data in Python (well, maybe Python's not the right thing anyway), so I'd like to work on that first. Maybe porting it into a library one day?
+Efficiency is a big deal when parsing lots of data in Python (well, maybe Python's not the right thing anyway), so I'd like to work on that first. Also, I really want to try porting it to a library as well.
 
 MIT License.

@@ -1,0 +1,3 @@
+looks like i'll have to learn more complex math for this, which kinda sucks
+	galois fields are just sets of numbers with mod 2
+	GF(2)

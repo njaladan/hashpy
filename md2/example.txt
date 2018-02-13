@@ -6,6 +6,11 @@
 2. append the checksum
 	a. 
 
+whats the easiest way to store a lookup table inside a class that should be easy to read?
 
 
-wait wtf it's only 5 steps long who would've thunk it.
+initially misunderstood something - i thought that the bytes being padded were sequential, but apparently its jsut the same numebr
+	either way same level of security i think (can't get two of the same hashes)
+
+
+turns out the rfc was wrong (there was an extra xor necessary) rip
