@@ -1,10 +1,10 @@
-# hashbrowns
+# pyhash
 Collection of various hash functions.
 
 ## Introduction
 Hash functions are pretty interesting, but I never really understood them. This is just a small personal project where I'm trying to write various hash functions to try to understand them better.
 
-I'm writing them in Python now, but I might move into other language in the future.
+I'm writing them in Python now, but I might move into other languages in the future.
 
 ## File structure
 
