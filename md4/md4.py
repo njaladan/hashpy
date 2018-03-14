@@ -1,17 +1,19 @@
 #
-# MD2 hash implementation
+# MD4 hash implementation
 # _author: nagaganesh jaladanki
 #
 
-from md2_stable import md2_stable
 
-
-class md2():
+class md4():
 
     def __init__(self, data=None):
         self.hash = 0
         self.data = bytearray(0)
-        self.table = md2_stable()
+        self.A = 0x67452301
+        self.B = 0xefcdab89
+        self.C = 0x98badcfe
+        self.D = 0x10325476
+        
         if data != None:
             self.update(data)
 
@@ -24,37 +26,41 @@ class md2():
 
         self.data += bytestring
 
-        number_to_pad = 16-(len(self.data) % 16)
-        to_pad = [number_to_pad for i in range(number_to_pad)]
-        padded = self.data + bytearray(to_pad)
+        # step 1: padding bits
+        numtopad = 48 - (len(bytestring) % 64)
+        if numtopad <= 0:
+            numtopad += 64
 
-        checksum = bytearray(16)
+        padded = self.data + bytearray([128])
+        padded += bytearray(numtopad - 1)
 
-        L = 0
+        print(len(padded))
         
-        for i in range(len(padded)//16):
-            for j in range(16):
-                c = padded[16*i + j]
-                checksum[j] = checksum[j] ^ self.table.lookup(c ^ L)
-                L = checksum[j]
+        # step 2: append length
+        padded += convert_to_64bit(len(self.data) * 8)
 
-        padded_checksum = padded + checksum
-        buffer = bytearray(48)
+        # step 3: process message        
 
-        for i in range(0, len(padded_checksum)//16):
-            for j in range(0, 16):
-                buffer[j+16] = padded_checksum[16*i+j]
-                buffer[j+32] = buffer[j+16] ^ buffer[j]
 
-            t = 0
-            for j in range(0, 18):
-                for k in range(0, 48):
-                    t = buffer[k] ^ self.table.lookup(t)
-                    buffer[k] = t
-                t = (t+j) % 256
 
-        self.hash = buffer[0:16]
-        return self
+    def convert_to_64bit(data):
+        bytearr = bytearray(64)
+        count = 63
+        while data:
+            bytearr[count] = data % 256
+            data = int((data - (data % 256)) / 256)
+            count -= 1
+        return bytearr
+
+    def f(x,y,z):
+        (x & y) | (~x & z)
+
+    def g(x,y,z):
+        (x & y) | (x & z) | (y & z)
+
+    def h(x,y,z):
+        return x ^ y ^ z
+
 
     @property
     def digest(self):
@@ -69,16 +75,6 @@ class md2():
 def main():
     print('MD2 checksum calculator')
     
-    while(True):
-        print('Enter a file name.')
-        inp = input()
-        f = open(inp, 'rb')
-        data = f.read()
-        
-        hashobj = md2()
-        hashobj.update(data)
-            
-        print("MD2: " + hashobj.hexdigest)
 
 if __name__ == '__main__':
     main()
