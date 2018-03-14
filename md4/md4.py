@@ -2,7 +2,7 @@
 # MD4 hash implementation
 # _author: nagaganesh jaladanki
 #
-
+import struct
 
 def convert_to_64bit(data):
     bytearr = bytearray(64)
@@ -14,10 +14,10 @@ def convert_to_64bit(data):
     return bytearr
 
 def f(x,y,z):
-    (x & y) | (~x & z)
+    return (x & y) | (~x & z)
 
 def g(x,y,z):
-    (x & y) | (x & z) | (y & z)
+    return (x & y) | (x & z) | (y & z)
 
 def h(x,y,z):
     return x ^ y ^ z
@@ -63,23 +63,50 @@ class md4():
         padded += convert_to_64bit(len(self.data) * 8)
 
         # step 3: process message
-        vals = self.vals
+        vals = [0x67452301,0xefcdab89,0x98badcfe,0x10325476]
         X = bytearray(16)
-        blocks = int(len(padded) / 16) - 1
+        blocks = int(len(padded) / 64)
         for i in range(0, blocks):
-            X = padded[4*i + 4*(i+1)]
+            valprev = vals[:]
+            X = padded[64*i:64*(i+1)]
 
-        s = (3,7,11,19)
-        for i in range(16):
-            r = (16-i)%4
-            k = i
-            a = vals[r]
-            b = vals[(r + 1) % 4]
-            c = vals[(r + 2) % 4]
-            d = vals[(r + 3) % 4]
-            vals[r] = leftrotate(a + f(b,c,d) + X[k], s)
-
+            s = (3,7,11,19)
+            for i in range(16):
+                r = (16-i)%4
+                k = i
+                a = vals[r]
+                b = vals[(r + 1) % 4]
+                c = vals[(r + 2) % 4]
+                d = vals[(r + 3) % 4]
+                vals[r] = leftrotate((a + f(b,c,d) + X[k]) % 2**32, s[k % 4])
             
+            s = (3,5,9,13)
+            for i in range(16):
+                r = (16-i)%4
+                k = i
+                a = vals[r]
+                b = vals[(r + 1) % 4]
+                c = vals[(r + 2) % 4]
+                d = vals[(r + 3) % 4]
+                vals[r] = leftrotate((a + g(b,c,d) + X[k] + 0x5A827999) % 2**32, s[k % 4])
+
+            s = (3,9,11,15)
+            k = (0,8,4,12,2,10,6,14,1,9,5,13,3,11,7,15)
+            for i in range(16):
+                r = (16-i)%4
+                k = i
+                a = vals[r]
+                b = vals[(r + 1) % 4]
+                c = vals[(r + 2) % 4]
+                d = vals[(r + 3) % 4]
+
+                vals[r] = leftrotate((a + h(b,c,d) + X[k] + 0x6ED9EBA1) % 2**32, s[k % 4])
+            
+            for i in range(4):
+                vals[i] = (valprev[i] + vals[i]) % 2**32
+
+        self.vals = vals
+        return self
 
         
     @property
@@ -88,9 +115,12 @@ class md4():
 
     @property
     def hexdigest(self):
-        return self.hash.hex()
+        bh = bytearray(0)
+        for i in range(4):
+            bh = bh + bytearray(struct.pack('<I', self.vals[i]))
+        return bh.hex()
 
 
-md4(b'hello')
-
+a = md4(b'')
+print(a.hexdigest)
         
