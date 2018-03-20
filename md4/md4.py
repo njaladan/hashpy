@@ -17,12 +17,13 @@ def f(x,y,z):
     return x & y | ~x & z
 
 def g(x,y,z):
-    return (x & y) | (x & z) | (y & z)
+    return x & y | x & z | y & z
 
 def h(x,y,z):
     return x ^ y ^ z
 
 def leftrotate(n, b):
+    #print(n,b)
     return ((n << b) | ((n & 0xffffffff) >> (32 - b))) & 0xffffffff
 
 
@@ -80,6 +81,9 @@ class md4():
                 b = vals[(r + 1) % 4]
                 c = vals[(r + 2) % 4]
                 d = vals[(r + 3) % 4]
+                if i>12:
+                    print(f(b,c,d), X)
+                    print(a + f(b,c,d) + X[k], s[k % 4])
                 vals[r] = leftrotate(a + f(b,c,d) + X[k], s[k % 4])
                 
             print(list(map(hex, vals)))
@@ -93,7 +97,6 @@ class md4():
                 b = vals[(r + 1) % 4]
                 c = vals[(r + 2) % 4]
                 d = vals[(r + 3) % 4]
-                print(a, b, c, d, k, s[i%4])
                 vals[r] = leftrotate(a + g(b,c,d) + X[k] + 0x5A827999, s[i % 4])
 
             print(list(map(hex, vals)))
