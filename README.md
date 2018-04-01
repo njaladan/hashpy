@@ -20,7 +20,7 @@ This is a pretty optimistic list.
 - [x] Adler-32
 - [ ] CRC32
 - [x] MD2
-- [ ] MD4
+- [x] MD4
 - [ ] MD5
 - [ ] Jenkins
 - [ ] BLAKE

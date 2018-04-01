@@ -14,7 +14,6 @@ def h(x,y,z):
     return x ^ y ^ z
 
 def leftrotate(n, b):
-    #print(n,b)
     return ((n << b) | ((n & 0xffffffff) >> (32 - b))) & 0xffffffff
 
 class md4():

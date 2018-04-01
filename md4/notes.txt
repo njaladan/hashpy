@@ -1,7 +1,0 @@
-step 1: padding
-the rfc is written in the manner of bits, but in this case i'll just be working with bytes, so it's not as bad
-if the message is 56 mod 64 bytes, then add one byte of 0x10000000 and like 63 empty bytes
-	if not, add the appropriate amount but the first byte is always 0x10000000
-
-step 2: append length
-we add the length of the original message in 64 bits (don't worry about the case where it's more becuase that's 2 exabytes LoL)
