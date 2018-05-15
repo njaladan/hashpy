@@ -24,7 +24,7 @@ This is a pretty optimistic list.
 - [ ] MD5
 - [ ] Jenkins
 - [ ] BLAKE
-- [ ] SHA-0
+- [x] SHA-1
 - [ ] SHA-2
 
 ## Future
