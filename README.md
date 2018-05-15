@@ -25,7 +25,7 @@ This is a pretty optimistic list.
 - [ ] Jenkins
 - [ ] BLAKE
 - [x] SHA-1
-- [ ] SHA-2
+- [x] SHA-2
 
 ## Future
 Efficiency is a big deal when parsing lots of data in Python (well, maybe Python's not the right thing anyway), so I'd like to work on that first. Also, I really want to try porting it to a library as well.
