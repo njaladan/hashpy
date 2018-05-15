@@ -106,10 +106,6 @@ class md4():
         return self
 
     @property
-    def digest(self):
-        return bytes(self.hash)
-
-    @property
     def hexdigest(self):
         bh = bytearray(0)
         for i in range(4):
