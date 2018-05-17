@@ -1,9 +1,3 @@
-#
-# SHA-1 hash implementation
-# _author: nagaganesh jaladanki
-#
-import struct
-
 def f(t,b,c,d):
     if t < 20:
         return f0(b,c,d)
@@ -13,17 +7,22 @@ def f(t,b,c,d):
         return f2(b,c,d)
     return f3(b,c,d)
 
+
 def f0(b,c,d):
     return d ^ (b & (c ^ d))
+
 
 def f1(b,c,d):
     return b ^ c ^ d
 
+
 def f2(b,c,d):
     return (b & c) | (b & d) | (c & d)
 
+
 def f3(b,c,d):
     return b ^ c ^ d
+
 
 def leftshift(x, n):
     return ((x << n) | (x >> (32 - n))) & 0xffffffff

@@ -2,8 +2,6 @@
 # SHA-2 512-bit hash implementation
 # _author: nagaganesh jaladanki
 #
-import struct
-
 def rotr(x, n):
     return (x >> n) | (x << (64 - n))
 

@@ -1,8 +1,0 @@
-turns out crc32 is a general purpose algorithm, and that it's 'customizable' with whatever polynomial we choose to specify
-
-in this case, i'll use the crc32 standard polynomai, which is [here].
-
-had to write my own bitwise rotate function, which was a little odd, and idk if it works in some cases we'll see maybe i can put it into a utils python file? look into that
-
-
-i think i tried a new strategy that other people didn't do, chiefly which is rotating and xor'ing. i think it works well not sure if there'a faster way

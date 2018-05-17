@@ -20,3 +20,5 @@ for b in arr:
 
 print("Checksum: " + str(checksum))
 print("Number of bytes processed: " + str(num_of_bytes))
+
+

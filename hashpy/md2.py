@@ -1,12 +1,7 @@
-#
-# MD2 hash implementation
-# _author: nagaganesh jaladanki
-#
-
 from md2_stable import md2_stable
+from hash import Hash
 
-
-class md2():
+class md2(Hash):
 
     def __init__(self, data=None):
         self.hash = 0
@@ -14,7 +9,6 @@ class md2():
         self.table = md2_stable()
         if data != None:
             self.update(data)
-
 
     def update(self, bytestring):
         
@@ -56,11 +50,23 @@ class md2():
         self.hash = buffer[0:16]
         return self
 
-    @property
     def digest(self):
-        # this is not elegant
         return bytes(self.hash)
 
-    @property
     def hexdigest(self):
         return self.hash.hex()
+
+    def copy(self):
+        return md2(self.data)
+
+    @property
+    def block_size(self):
+        return 64
+
+    @property
+    def digest_size(self):
+        return 16
+
+    @property
+    def name(self):
+        return 'md4'
