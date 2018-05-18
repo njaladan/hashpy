@@ -15,3 +15,8 @@ def rotl_64(x, n):
 
 def ch(x, y, z):
     return (x & y) ^ ((~ x) & z)
+
+def byteencode(bytestring):
+    if type(bytestring) != bytes:
+        bytestring = str.encode(bytestring)
+    return bytearray(bytestring)
