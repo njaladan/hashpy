@@ -1,6 +1,3 @@
-# algorithm comes in 16, 32, and 64 bit variants
-# simple input will let user choose which one they want
-
 class Fletcher:
     """Specifies the general class for the FletcherNbit checksum"""
     

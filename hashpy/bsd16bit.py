@@ -1,24 +1,42 @@
-print('BSD 16-bit checksum calculator')
-print('Enter a file name.')
-doc = input()
-f = open(doc, "rb")
-r = f.read()
-f.close()
-
-arr = bytearray(r)
-
-checksum = 0 #initialize
-bitmask = 0xffff
-num_of_bytes = 0
-
-for b in arr:
-    # circular shift byte-array one position to the right
-    # 16 bit, max valid amount is 0xffff
-    num_of_bytes += 1
-    checksum = (checksum >> 1) + ((checksum & 1) << 15)
-    checksum = (checksum + b) & bitmask
-
-print("Checksum: " + str(checksum))
-print("Number of bytes processed: " + str(num_of_bytes))
+from hash import Hash
+from copy import deepcopy
 
 
+class bsd16bit(Hash):
+
+    def __init__(self, data=None):
+        self.data = data
+        self.checksum = 0
+        self.bitmask = 0xffff
+        if self.data:
+            self.update(self.data)
+
+    def update(self, data):
+        if self.data is None:
+            self.data = bytearray(data)
+        else:
+            self.data += bytearray(data)
+        for b in self.data:
+            self.checksum = (self.checksum >> 1) + ((self.checksum & 1) << 15)
+            self.checksum = (self.checksum + b) & self.bitmask
+
+    def hexdigest(self):
+        return str(hex(self.checksum))
+
+    def digest(self):
+        return chr(self.checksum >> 8) + chr(self.checksum & 0xff)
+
+    def copy(self):
+        return deepcopy(self)
+
+    @property
+    def block_size(self):
+        return 1
+
+    @property
+    def digest_size(self):
+        return 2
+
+    @property
+    def name(self):
+        return "bsd16bit"

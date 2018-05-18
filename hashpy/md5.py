@@ -143,4 +143,3 @@ class md5():
         for i in range(4):
             bh = bh + bytearray(struct.pack('<I', self.vals[i]))
         return bh.hex()
-
