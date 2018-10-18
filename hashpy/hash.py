@@ -1,9 +1,24 @@
-from abc import ABC, abstractmethod
+"""
+Base class Hash implementation
+Author: Nagaganesh Jaladanki
+License: MIT
+"""
+
+from abc import ABCMeta, abstractmethod
 
 
-class Hash(ABC):
+class Hash(metaclass=ABCMeta):
+
+    def __init__(self, data=None):
+        """Initialize the hash object"""
+
+        self.data = data
+        if data is not None:
+            self.data = bytearray(0)
+        self.update(data)
+
     @abstractmethod
-    def update(self):
+    def update(self, bytestring):
         """Updates the hash with the data passed in."""
         pass
 
@@ -21,19 +36,3 @@ class Hash(ABC):
     def copy(self):
         """Returns a deepcopy of the object"""
         pass
-
-    @property
-    @abstractmethod
-    def name(self):
-        pass
-
-    @property
-    @abstractmethod
-    def digest_size(self):
-        pass
-
-    @property
-    @abstractmethod
-    def block_size(self):
-        pass
-
