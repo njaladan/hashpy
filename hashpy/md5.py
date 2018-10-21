@@ -1,8 +1,14 @@
-#
-# MD5 hash implementation
-# _author: nagaganesh jaladanki
-#
+"""
+Contains implementation for MD5
+Based off of the IETF RFC 1321: https://tools.ietf.org/html/rfc1321
+
+Author: Nagaganesh Jaladanki
+License: MIT
+"""
+
 import struct
+from hash import Hash
+from md5constants import T
 
 def F(x,y,z):
     return (x & y) | ((~x) & z)
@@ -19,43 +25,18 @@ def I(x,y,z):
 def leftrotate(n, b):
     return ((n << b) | ((n & 0xffffffff) >> (32 - b))) & 0xffffffff
 
-T = [3614090360, 3905402710, 606105819, 3250441966,
-      4118548399, 1200080426, 2821735955, 4249261313,
-      1770035416, 2336552879, 4294925233, 2304563134,
-      1804603682, 4254626195, 2792965006, 1236535329,
-      4129170786, 3225465664, 643717713, 3921069994,
-      3593408605, 38016083, 3634488961, 3889429448,
-      568446438, 3275163606, 4107603335, 1163531501,
-      2850285829, 4243563512, 1735328473, 2368359562,
-      4294588738, 2272392833, 1839030562, 4259657740,
-      2763975236, 1272893353, 4139469664, 3200236656,
-      681279174, 3936430074, 3572445317, 76029189,
-      3654602809, 3873151461, 530742520, 3299628645,
-      4096336452, 1126891415, 2878612391, 4237533241,
-      1700485571, 2399980690, 4293915773, 2240044497,
-      1873313359, 4264355552, 2734768916, 1309151649,
-      4149444226, 3174756917, 718787259, 3951481745]
 
-class md5():
+class MD5(Hash):
 
-    def __init__(self, data=None):
-        self.hash = 0
-        self.data = bytearray(0)
+    def update(self, bytestring, debug=False):
 
-
-        if data != None:
-            self.update(data)
-
-
-    def update(self, bytestring):
-
+        # Step 0: Convert to proper type if necessary
         if type(bytestring) != bytes:
             bytestring = str.encode(bytestring)
         bytestring = bytearray(bytestring)
-
         self.data += bytestring
 
-        # step 1: padding bits
+        # Step 1: Pad null bits to ensure MD construction
         numtopad = 56 - (len(bytestring) % 64)
         if numtopad <= 0:
             numtopad += 64
@@ -72,7 +53,7 @@ class md5():
                      0x98badcfe,
                      0x10325476]
         vals = self.vals
-     
+
         X = bytearray(16)
         blocks = int(len(padded) / 64)
         for i in range(0, blocks):
@@ -93,7 +74,7 @@ class md5():
                 c = vals[(r + 2) % 4]
                 d = vals[(r + 3) % 4]
                 vals[r] = b + leftrotate(a + F(b, c, d) + X[k] + T[i], s) & 0xffffffff
-            
+
             # round 2
             mods = (5,9,14,20)
             for i in range(16):
@@ -105,7 +86,7 @@ class md5():
                 c = vals[(r + 2) % 4]
                 d = vals[(r + 3) % 4]
                 vals[r] = b + leftrotate(a + G(b, c, d) + X[k] + T[i + 16], s) & 0xffffffff
-            
+
             # round 3
             mods = (4,11,16,23)
             for i in range(16):
@@ -117,7 +98,7 @@ class md5():
                 c = vals[(r + 2) % 4]
                 d = vals[(r + 3) % 4]
                 vals[r] = b + leftrotate(a + H(b, c, d) + X[k] + T[i + 32], s) & 0xffffffff
-            
+
             # round 4
             mods = (6,10,15,21)
             for i in range(16):

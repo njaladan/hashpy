@@ -8,6 +8,7 @@ License: MIT
 
 import utils
 from hash import Hash
+from sha2constants import K_SHA_32, K_SHA_64
 
 
 class SHA2(Hash):
@@ -30,7 +31,7 @@ class SHA2(Hash):
 
     """
 
-    def update(self, bytestring):
+    def update(self, bytestring, debug=False):
         """ Updates current hash object with data.
 
         Args:
@@ -42,6 +43,8 @@ class SHA2(Hash):
             bytestring = str.encode(bytestring)
         bytestring = bytearray(bytestring)
         self.data += bytestring
+        if debug:
+            print("Parsed input data is: {0}".format(self.data))
 
         # Step 1: Add padding bits to ensure final message is
         # divisible by block_size
@@ -58,6 +61,8 @@ class SHA2(Hash):
         # Step 2: Append length of the original message to the
         # padded bytestring
         padded += (len(self.data) * 8).to_bytes(field_length_size, 'big')
+        if debug:
+            print("Padded data is: {0}".format(padded))
 
         # Step 3: Iterate computation for each block in data
         self.H = self.H_IV[:]
@@ -77,6 +82,8 @@ class SHA2(Hash):
             for i in range(16, self.rounds):
                 W[i] = (self.ssig1(W[i - 2]) + W[i - 7] +
                         self.ssig0(W[i - 15]) + W[i - 16]) & self.bitmask
+            if debug:
+                print("Round {0} message schedule W is: {1}".format(j, W))
 
             # Initialize the working variables
             a, b, c, d, e, f, g, h = self.H
@@ -98,7 +105,11 @@ class SHA2(Hash):
             li = [a, b, c, d, e, f, g, h]
             for i in range(8):
                 self.H[i] = (self.H[i] + li[i]) & self.bitmask
+            if debug:
+                print("Intermediate hash value is: {0}".format(self.hexdigest()))
 
+        if debug:
+            print("Final hash value is: {0}".format(self.hexdigest()))
         # Return object for method chaining
         return self
 
@@ -129,15 +140,6 @@ class SHA2(Hash):
             digest += self.H[i].to_bytes(self.word_size, 'big', signed=False)
         return digest
 
-    def copy(self):
-        """ Return a deep copy of the hash object; can be useful
-        for computing hashes of complex objects with shared substrings
-
-        :return: object
-        """
-
-        return self.__class__(bytes(self.data))
-
 
 class SHA32bit(SHA2):
     """ Base class for the 32-bit word SHA-2 family """
@@ -145,7 +147,7 @@ class SHA32bit(SHA2):
     block_size = 64
     word_size = 4
     rounds = 64
-    K = utils.K_SHA_32
+    K = K_SHA_32
     bitmask = 0xffffffff
     bsig0 = staticmethod(utils.bsig0_32)
     bsig1 = staticmethod(utils.bsig1_32)
@@ -159,7 +161,7 @@ class SHA64bit(SHA2):
     block_size = 128
     word_size = 8
     rounds = 80
-    K = utils.K_SHA_64
+    K = K_SHA_64
     bitmask = 0xffffffffffffffff
     bsig0 = staticmethod(utils.bsig0_64)
     bsig1 = staticmethod(utils.bsig1_64)

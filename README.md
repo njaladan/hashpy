@@ -19,4 +19,9 @@ Collection of various hash functions. Python library in progress.
 - [ ] SHA-3
 - [ ] Whirlpool
 
+## To-do
+- [ ] Combine SHA-1 and SHA-2 with a parent class (combie hexdigest, digest)
+- [ ] Suitable organization for constants and hash functions
+- [ ]
+
 MIT License.
